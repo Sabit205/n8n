@@ -1,0 +1,17 @@
+name: Ping n8n Website Every 2 Minutes
+
+# GitHub Actions schedules only support minimum 5-minute intervals on cron.
+# To do every 2 minutes, we will workaround with three cron triggers at 0, 2, and 4 minute marks.
+
+on:
+  schedule:
+    - cron: '*/2 * * * *'    # every 2 minutes
+  workflow_dispatch:          # manual trigger also allowed
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send GET request to n8n website
+        run: |
+          curl -L -s -o /dev/null -w "%{http_code}" https://n8n-b4n5.onrender.com
